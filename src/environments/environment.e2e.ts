@@ -1,5 +1,5 @@
 // This file can be replaced during build by using the `fileReplacements` array.
-// `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
+// `ng build -c e2e` replaces `environment.ts` with `environment.e2e.ts`.
 // The list of file replacements can be found in `angular.json`.
 
 import { base, EnvironmentType } from './environment.base';
@@ -7,9 +7,9 @@ import { base, EnvironmentType } from './environment.base';
 export const environment: EnvironmentType = {
   ...base,
   api: {
-    tasks: 'http://localhost:3000',
+    tasks: 'tasks-api',
   },
-  version: `v${base.version}-dev`,
+  version: `v${base.version}-e2e`,
 };
 
 /*
