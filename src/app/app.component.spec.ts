@@ -26,8 +26,11 @@ describe('AppComponent', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement;
-    expect(compiled.querySelector('.content span').textContent).toContain(
-      'app app is running!'
+    expect(
+      // tslint:disable-next-line: quotemark
+      compiled.querySelector("[data-angular='form.title'").textContent
+    ).toContain(
+      `Welcome to app ${fixture.componentInstance.title}-${fixture.componentInstance.version}`
     );
   });
 });
