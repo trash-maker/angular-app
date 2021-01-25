@@ -6,12 +6,12 @@ import { environment } from '@env/environment';
  */
 @Directive({
   // tslint:disable-next-line:directive-selector
-  selector: `[data-angular]`,
+  selector: `[data-test]`,
 })
-export class DataAngularDirective {
+export class DataTestDirective {
   constructor(private el?: ElementRef, private renderer?: Renderer2) {
     if (renderer && el && el.nativeElement && environment.production) {
-      renderer.removeAttribute(el.nativeElement, 'data-angular');
+      renderer.removeAttribute(el.nativeElement, 'data-test');
     }
   }
 }

@@ -28,7 +28,7 @@ describe('AppComponent', () => {
     const compiled = fixture.nativeElement;
     expect(
       // tslint:disable-next-line: quotemark
-      compiled.querySelector("[data-angular='form.title'").textContent
+      compiled.querySelector("[data-test='form.title']").textContent
     ).toContain(
       `Welcome to app ${fixture.componentInstance.title}-${fixture.componentInstance.version}`
     );

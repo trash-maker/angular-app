@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DataAngularDirective } from './data-angular.directive';
+import { DataTestDirective } from './data-test.directive';
 
-const definitions = [DataAngularDirective];
+const definitions = [DataTestDirective];
 
 @NgModule({
   declarations: definitions,
   imports: [CommonModule],
   exports: definitions,
 })
-export class DataAngularModule {}
+export class DataTestModule {}
