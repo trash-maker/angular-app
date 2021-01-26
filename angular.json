@@ -30,6 +30,9 @@
             "assets": ["src/favicon.ico", "src/assets"],
             "styles": ["src/styles.scss"],
             "scripts": [],
+            "stylePreprocessorOptions": {
+              "includePaths": ["src"]
+            },
             "customWebpackConfig": {
               "path": "webpack.config.js"
             }
@@ -85,7 +88,7 @@
               "browserTarget": "app:build:production"
             },
             "e2e": {
-              "browserTarget": "app-concept:build:e2e",
+              "browserTarget": "app:build:e2e",
               "proxyConfig": "proxy.conf.js"
             }
           }
@@ -106,6 +109,9 @@
             "assets": ["src/favicon.ico", "src/assets"],
             "styles": ["src/styles.scss"],
             "scripts": [],
+            "stylePreprocessorOptions": {
+              "includePaths": ["src"]
+            },
             "customWebpackConfig": {
               "path": "webpack.config.js"
             }

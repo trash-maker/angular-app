@@ -1,6 +1,6 @@
-@import "../themes/theme-variables.scss";
+@use "themes/theme-variables" as variables;
 
 :host {
   @apply h-screen flex flex-col items-center justify-center;
-  background: $accent;
+  background: variables.$accent;
 }
