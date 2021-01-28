@@ -12,7 +12,8 @@
     "bundle-report": "ng build -c=prod --stats-json && npx webpack-bundle-analyzer dist/stats.json",
     "commit": "cz",
     "format:fix": "pretty-quick --write --pattern \"src/**/*.{ts,html,json}\" --pattern \"e2e/**/*.{ts,html,json}\"",
-    "format:check": "prettier --list-different \"src/**/*.{ts,html,json}\" \"e2e/**/*.{ts,html,json}\""
+    "format:check": "prettier --list-different \"src/**/*.{ts,html,json}\" \"e2e/**/*.{ts,html,json}\"",
+    "generate:scam": "node npm-scripts/generate-scam.js"
   },
   "husky": {
     "hooks": {
