@@ -17,7 +17,8 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "run-s format:fix test"
+      "pre-commit": "run-s format:fix",
+      "pre-push": "run-s test"
     }
   },
   "private": true,
@@ -40,7 +41,8 @@
     "ts-cacheable": "^1.0.3",
     "tslib": "^2.0.0",
     "web-animations-js": "^2.3.2",
-    "zone.js": "~0.10.2"
+    "zone.js": "~0.10.2",
+    "@ngx-formly/core": "^5.0.0"
   },
   "devDependencies": {
     "@angular-builders/custom-webpack": "^10.0.1",
