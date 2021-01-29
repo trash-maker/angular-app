@@ -13,7 +13,8 @@
     "commit": "cz",
     "format:fix": "pretty-quick --write --pattern \"src/**/*.{ts,html,json}\" --pattern \"e2e/**/*.{ts,html,json}\"",
     "format:check": "prettier --list-different \"src/**/*.{ts,html,json}\" \"e2e/**/*.{ts,html,json}\"",
-    "generate:scam": "node npm-scripts/generate-scam.js"
+    "generate:scam": "node npm-scripts/generate-scam.js",
+    "version": "conventional-changelog -p angular -i CHANGELOG.md -s && git add CHANGELOG.md"
   },
   "husky": {
     "hooks": {
@@ -58,6 +59,7 @@
     "autoprefixer": "10.2.3",
     "codelyzer": "^6.0.0",
     "commitizen": "^4.2.3",
+    "conventional-changelog-cli": "2.1.1",
     "cz-conventional-changelog": "^3.3.0",
     "faker": "^5.1.0",
     "husky": "^4.3.8",
