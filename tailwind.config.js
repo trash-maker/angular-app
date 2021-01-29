@@ -1,26 +1,14 @@
-module.exports = (isProd) => ({
+module.exports = {
   prefix: "",
-  future: {
-    removeDeprecatedGapUtilities: true,
-    purgeLayersByDefault: true,
-  },
   purge: {
-    enabled: isProd,
-    content: ["**/*.html", "**/*.ts"],
+    content: ["./src/**/*.{html,ts}"],
   },
   darkMode: "class", // or 'media' or 'class'
   theme: {
-    extend: {
-      transformOrigin: {
-        0: "0%",
-      },
-      zIndex: {
-        "-1": "-1",
-      },
-    },
+    extend: {},
   },
   variants: {
-    borderColor: ["responsive", "hover", "focus", "focus-within"],
+    extend: {},
   },
-  plugins: [require("@tailwindcss/typography")],
-});
+  plugins: [require("@tailwindcss/forms"), require("@tailwindcss/typography")],
+};

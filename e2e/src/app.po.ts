@@ -1,14 +1,14 @@
 import { browser, by, element } from 'protractor';
 
 export class AppPage {
-  navigateTo(): Promise<unknown> {
-    return browser.get(browser.baseUrl) as Promise<unknown>;
+  async navigateTo(): Promise<unknown> {
+    return browser.get(browser.baseUrl);
   }
 
-  getTitleText(): Promise<string> {
+  async getTitleText(): Promise<string> {
     return element(
       // tslint:disable-next-line: quotemark
       by.css("[data-test='form.title']")
-    ).getText() as Promise<string>;
+    ).getText();
   }
 }

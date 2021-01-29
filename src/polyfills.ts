@@ -18,11 +18,13 @@
  * BROWSER POLYFILLS
  */
 
-/** IE9, IE10 and IE11 requires all of the following polyfills. */
+/** IE11 requires all of the following polyfills. */
 // import 'core-js/features';
 import 'core-js/features';
 
-/** IE10 and IE11 requires the following for NgClass support on SVG elements */
+/**
+ * IE11 requires the following for NgClass support on SVG elements
+ */
 import 'classlist.js';
 
 /**
