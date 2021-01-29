@@ -1,5 +1,8 @@
 /**
- * Global theme variables and mixins 💅 
+ * Global theme variables and mixins 💅
+ *
+ * Import in your component .scss with:
+ * `@use "themes/theme-variables" as variables;`
  **/
 
 $accent: #326ae2;

@@ -1,27 +1,50 @@
-# App
+# Angular 11 + Tailwind CSS Starter kit
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 10.2.1.
+A base project for Angular applications. Scalable folder architecture, TailwindCSS, Husky and more features.
 
-## Development server
+[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+![https://user-images.githubusercontent.com/77569116/106332633-7223fc00-6287-11eb-944b-7685ba9af281.gif](https://user-images.githubusercontent.com/77569116/106332633-7223fc00-6287-11eb-944b-7685ba9af281.gif)
 
-## Code scaffolding
+## Features
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+- [Commitizen-friendly](https://github.com/commitizen/cz-cli#making-your-repo-commitizen-friendly) repo
+- [conventional-changelog](https://github.com/conventional-changelog/conventional-changelog/tree/master/packages/conventional-changelog-cli) generation
+- [Sass](https://sass-lang.com/guide) (CSS preprocessor) with global [theme variables](src/themes/theme-variables.scss)
+- [Tailwind CSS 1.9.6](https://tailwindcss.com/docs/)
+- [Web Components](https://developer.mozilla.org/es/docs/Web/Web_Components) support
+- Pre commit hooks with [Husky](https://github.com/typicode/husky) (lint before commit and test before push)
+- IE11+ support
+- [Typescript 4.1](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-4-1.html)
+- Linting with [TSLint](https://palantir.github.io/tslint/) & [Prettier 2.2](https://prettier.io/docs/en/index.html)
+- [Webpack Bundle Analyzer](https://github.com/webpack-contrib/webpack-bundle-analyzer)
+- [RxJS 6](https://github.com/ReactiveX/RxJS)
+- Scalable folder architecture
+- Clean imports with [Typescript Path Aliases](https://www.typescriptlang.org/docs/handbook/module-resolution.html#path-mapping)
+- [SCAM](https://medium.com/marmicode/your-angular-module-is-a-scam-b4136ca3917b) approach
+- Dynamic (JSON powered) forms with [Formly](https://formly.dev/)
+- Date utilities with [date-fns](https://date-fns.org/)
+- prototyping and mocking back-end with [json-server](https://github.com/typicode/json-server) and [faker.js](https://github.com/Marak/Faker.js)
 
-## Build
+## NPM scripts
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+| Script                                                              | Description                                                   |
+| ------------------------------------------------------------------- | ------------------------------------------------------------- |
+| npm **install**                                                     | Install all dependencies                                      |
+| npm **run start**                                                   | Run development server on http://localhost:4200/              |
+| npm **run test**                                                    | Run unit tests via Karma without watch mode                   |
+| npm **run mock:server**                                             | Run json server on http://localhost:3000/                     |
+| npm **run bundle-report**                                           | Generate report of Webpack bundle analyzer inside dist/folder |
+| npm **run format:fix**                                              | Autofix code format issues with Prettier                      |
+| npm **run format:check**                                            | Find code format issues and list them                         |
+| npm **run generate:scam [*component - directive - pipe*] [*path*]** | Generate SCAM on given path                                   |
+| npm **run commit**                                                  | Start commitizen commit                                       |
+| npm **version [*major minor patch*]**                               | bump project version and generate conventional changelog      |
 
-## Running unit tests
+## Licence
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+[MIT](https://choosealicense.com/licenses/mit/)
 
-## Running end-to-end tests
+## Credits
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+README.md and sample page layout inspired by [JohanVillanueva/angular10-starter-kit](https://github.com/JohanVillanueva/angular10-starter-kit) 👍
