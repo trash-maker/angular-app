@@ -1,0 +1,44 @@
+:host {
+  @apply block w-full h-full;
+}
+
+.animate {
+  @apply duration-200 transition-all;
+}
+
+table {
+  border-collapse: separate;
+  border-spacing: 0;
+  thead.sticky {
+    tr {
+      th {
+        @apply bg-white border border-transparent sticky top-0;
+        border-bottom-color: inherit;
+      }
+    }
+  }
+}
+
+.content {
+  @apply h-full w-full p-px overflow-auto;
+}
+.panel {
+  @apply fixed flex;
+  .panel-content {
+    @apply animate h-full overflow-hidden;
+  }
+
+  .overlay {
+    @apply animate h-full opacity-50 flex-grow;
+  }
+
+  &:not(.open) {
+    @apply pointer-events-none;
+    .panel-content {
+      @apply w-0;
+    }
+    .overlay {
+      @apply opacity-0;
+    }
+  }
+}
