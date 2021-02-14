@@ -1,4 +1,6 @@
 import {
+  merge,
+  NEVER,
   Observable,
   of,
   OperatorFunction,
@@ -98,10 +100,14 @@ export function backoff<T>(
  * Provide a polling behavior.
  *
  * @param pollInterval the polling interval
+ * @param trigger$ (optional) trigger source for forcing fetch
  */
-export function polling<T>(pollInterval: number): OperatorFunction<T, T> {
+export function polling<T, I>(
+  pollInterval: number,
+  trigger$?: Observable<I>
+): OperatorFunction<T, T> {
   return (source$: Observable<T>) =>
-    timer(0, pollInterval).pipe(switchMapTo(source$));
+    merge(trigger$ || NEVER, timer(0, pollInterval)).pipe(switchMapTo(source$));
 }
 
 /**
