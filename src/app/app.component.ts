@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { environment } from '@env/environment';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -7,6 +7,5 @@ import { environment } from '@env/environment';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  title = 'app';
-  version = environment.version;
+  constructor() {}
 }

@@ -4,3 +4,7 @@
   @apply h-screen flex flex-col items-center justify-center;
   background: variables.$accent;
 }
+
+a.link {
+  @apply p-1 px-2 bg-white rounded;
+}

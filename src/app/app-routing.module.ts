@@ -1,10 +1,47 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { Title } from '@angular/platform-browser';
+import { Routes, RouterModule, Router, NavigationEnd } from '@angular/router';
+import { filter, map } from 'rxjs/operators';
+import { childActivatedRoute } from 'src/utils/router.utils';
+import { MessagePageComponent } from './core/components/message-page/message-page.component';
+import { MessagePageModule } from './core/components/message-page/message-page.module';
+import { LandingPageComponent } from './features/containers/landing-page/landing-page.component';
+import { LandingPageModule } from './features/containers/landing-page/landing-page.module';
 
-const routes: Routes = [];
+const routes: Routes = [
+  { path: '', pathMatch: 'full', component: LandingPageComponent },
+  { path: '**', component: MessagePageComponent, data: { title: 'Ouch!' } },
+];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' })],
-  exports: [RouterModule]
+  imports: [
+    LandingPageModule,
+    MessagePageModule,
+    RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' }),
+  ],
+  providers: [Title],
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {
+  appTitle: string;
+
+  constructor(router: Router, titleService: Title) {
+    this.appTitle = titleService.getTitle();
+    router.events
+      .pipe(
+        filter((event) => event instanceof NavigationEnd),
+        childActivatedRoute(router),
+        map((route) => {
+          let title = route.snapshot.data.title;
+          while (route.parent && !title) {
+            route = route.parent;
+            title = route.snapshot.data.title;
+          }
+          return title || this.appTitle;
+        })
+      )
+      .subscribe((title: string) => {
+        titleService.setTitle(title);
+      });
+  }
+}
