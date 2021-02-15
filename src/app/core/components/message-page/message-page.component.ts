@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Data, Router } from '@angular/router';
 
 @Component({
   selector: 'app-message-page',
@@ -9,11 +9,23 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class MessagePageComponent implements OnInit {
   readonly message =
+    (this.state && this.state.message) ||
     this.route.snapshot.fragment ||
     this.route.snapshot.data.message ||
     'Page not found';
 
-  constructor(private route: ActivatedRoute) {}
+  constructor(private router: Router, private route: ActivatedRoute) {}
+
+  get state(): Data | undefined {
+    const currentNavigation = this.router.getCurrentNavigation();
+    return (
+      (this.router &&
+        currentNavigation &&
+        currentNavigation.extras &&
+        currentNavigation.extras.state) ||
+      undefined
+    );
+  }
 
   ngOnInit(): void {}
 }
