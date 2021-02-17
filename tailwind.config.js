@@ -1,6 +1,8 @@
 module.exports = {
   prefix: "",
   purge: {
+    mode: "layers",
+    layers: ["base", "components", "utilities"],
     content: ["./src/**/*.{html,ts}"],
   },
   darkMode: "class", // or 'media' or 'class'
