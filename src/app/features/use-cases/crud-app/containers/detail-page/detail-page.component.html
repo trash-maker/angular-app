@@ -1,0 +1,4 @@
+<ng-container *ngIf="task$ | async as task">
+  <a (click)="edit(task)">update</a>
+  <p>{{ task | json }}</p>
+</ng-container>

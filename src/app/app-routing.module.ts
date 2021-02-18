@@ -10,6 +10,14 @@ import { LandingPageModule } from './features/containers/landing-page/landing-pa
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', component: LandingPageComponent },
+  {
+    path: 'use-case/crud-app',
+    loadChildren: () =>
+      import('./features/use-cases/crud-app/crud-app-routing.module').then(
+        (m) => m.CrudAppRoutingModule
+      ),
+    data: { title: 'CRUD App' },
+  },
   { path: '**', component: MessagePageComponent, data: { title: 'Ouch!' } },
 ];
 

@@ -1,0 +1,9 @@
+<section role="list">
+  <div role="listitem" *ngFor="let task of tasks$ | async">
+    <div>
+      <a (click)="delete(task)">delete</a>
+      <a [routerLink]="[task.id]">detail</a>
+    </div>
+    <code>{{ task | json }}</code>
+  </div>
+</section>
