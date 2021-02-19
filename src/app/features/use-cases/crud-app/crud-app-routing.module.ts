@@ -4,7 +4,7 @@ import { DetailPageComponent } from './containers/detail-page/detail-page.compon
 import { DetailPageModule } from './containers/detail-page/detail-page.module';
 import { ListPageComponent } from './containers/list-page/list-page.component';
 import { ListPageModule } from './containers/list-page/list-page.module';
-import { TaskResolver } from './resolvers/task.resolver';
+import { TaskResolveGuard } from './guard/task-resolve.guard';
 
 const routes: Routes = [
   {
@@ -12,10 +12,8 @@ const routes: Routes = [
     component: ListPageComponent,
   },
   {
-    path: `:${TaskResolver.pathParam}`,
-    resolve: {
-      task: TaskResolver,
-    },
+    path: `:${TaskResolveGuard.pathParam}`,
+    canActivate: [TaskResolveGuard],
     component: DetailPageComponent,
   },
 ];

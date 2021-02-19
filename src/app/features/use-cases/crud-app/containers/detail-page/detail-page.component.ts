@@ -2,6 +2,7 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable, Subject } from 'rxjs';
 import { TaskApiService } from '../../api/task-api.service';
+import { TaskResolveGuard } from '../../guard/task-resolve.guard';
 import { TaskModel } from '../../models/task.model';
 
 @Component({
@@ -11,8 +12,12 @@ import { TaskModel } from '../../models/task.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DetailPageComponent implements OnInit {
-  readonly fetchTrigger$: Subject<never> = this.route.snapshot.data.trigger$;
-  readonly task$: Observable<TaskModel> = this.route.snapshot.data.task;
+  readonly fetchTrigger$: Subject<never> = this.route.snapshot.data[
+    TaskResolveGuard.dataTriggerField
+  ];
+  readonly task$: Observable<TaskModel> = this.route.snapshot.data[
+    TaskResolveGuard.dataField
+  ];
 
   constructor(private api: TaskApiService, private route: ActivatedRoute) {}
 
