@@ -14,15 +14,15 @@ export class MessagePageComponent implements OnInit {
     this.route.snapshot.data.message ||
     'Page not found';
 
+  private readonly currentNavigation = this.router.getCurrentNavigation();
+
   constructor(private router: Router, private route: ActivatedRoute) {}
 
   get state(): Data | undefined {
-    const currentNavigation = this.router.getCurrentNavigation();
     return (
-      (this.router &&
-        currentNavigation &&
-        currentNavigation.extras &&
-        currentNavigation.extras.state) ||
+      (this.currentNavigation &&
+        this.currentNavigation.extras &&
+        this.currentNavigation.extras.state) ||
       undefined
     );
   }
