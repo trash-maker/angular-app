@@ -52,7 +52,8 @@ export class TaskResolveGuard implements CanActivate {
     const trigger$ =
       route.data[TaskResolveGuard.dataTriggerField] || new Subject();
     const data$: Observable<TaskModel> =
-      route.data.task || this.api.getTask(id).pipe(polling(5000, trigger$));
+      route.data[TaskResolveGuard.dataField] ||
+      this.api.getTask(id).pipe(polling(5000, trigger$));
 
     return data$.pipe(
       first(),
@@ -83,8 +84,7 @@ export class TaskResolveGuard implements CanActivate {
       map((value) => {
         route.data = {
           ...route.data,
-          [TaskResolveGuard.dataField]:
-            route.data[TaskResolveGuard.dataField] || data$,
+          [TaskResolveGuard.dataField]: data$,
           [TaskResolveGuard.dataTriggerField]: trigger$,
         };
         return true;
