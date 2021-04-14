@@ -28,6 +28,17 @@ export class TaskResolveGuard implements CanActivate {
     private api: TaskApiService
   ) {}
 
+  private hasPathParam(route: ActivatedRouteSnapshot): boolean {
+    const id =
+      route && route.params && +route.params[TaskResolveGuard.pathParam];
+    return id !== null && id !== undefined;
+  }
+
+  private fetchData$(route: ActivatedRouteSnapshot): Observable<TaskModel> {
+    const id = +route.params[TaskResolveGuard.pathParam];
+    return this.api.getTask(id);
+  }
+
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
@@ -36,9 +47,7 @@ export class TaskResolveGuard implements CanActivate {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    const id =
-      route && route.params && +route.params[TaskResolveGuard.pathParam];
-    if (id === null || id === undefined) {
+    if (!this.hasPathParam(route)) {
       this.router
         .navigateByUrl('/not-found', {
           skipLocationChange: true,
@@ -49,11 +58,11 @@ export class TaskResolveGuard implements CanActivate {
       );
     }
 
-    const trigger$ =
+    const trigger$: Subject<unknown> =
       route.data[TaskResolveGuard.dataTriggerField] || new Subject();
     const data$: Observable<TaskModel> =
       route.data[TaskResolveGuard.dataField] ||
-      this.api.getTask(id).pipe(polling(5000, trigger$));
+      this.fetchData$(route).pipe(polling(5000, trigger$));
 
     return data$.pipe(
       first(),
