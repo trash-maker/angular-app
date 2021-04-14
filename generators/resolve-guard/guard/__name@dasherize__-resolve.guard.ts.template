@@ -1,0 +1,101 @@
+import { Location } from '@angular/common';
+import { HttpErrorResponse } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import {
+  ActivatedRouteSnapshot,
+  CanActivate,
+  Router,
+  RouterStateSnapshot,
+  UrlTree,
+} from '@angular/router';
+import { Observable, Subject, throwError, of } from 'rxjs';
+import { catchError, first, map } from 'rxjs/operators';
+<% if(polling) { %>import { polling } from 'src/utils/rxjs.utils';<% } %>
+
+@Injectable({
+  providedIn: 'root',
+})
+export class <%= classify(name) %>ResolveGuard implements CanActivate {
+  static dataField = '<%= dasherize(name) %>.data$';
+  static dataTriggerField = '<%= dasherize(name) %>.trigger$';
+  static pathParam = '<%= dasherize(name) %>.id';
+
+  constructor(
+    private location: Location,
+    private router: Router,
+    // private api: ApiService
+  ) {}
+
+  private hasPathParam(route: ActivatedRouteSnapshot): boolean {
+    const param =
+      route && route.params && route.params[<%= classify(name) %>ResolveGuard.pathParam];
+    return param !== null && param !== undefined;
+  }
+
+  private fetchData$(route: ActivatedRouteSnapshot): Observable<any> {
+    const param = route.params[<%= classify(name) %>ResolveGuard.pathParam];
+    return of(null);
+  }
+
+  canActivate(
+    route: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot
+  ):
+    | Observable<boolean | UrlTree>
+    | Promise<boolean | UrlTree>
+    | boolean
+    | UrlTree {
+    if (!this.hasPathParam(route)) {
+      this.router
+        .navigateByUrl('/not-found', {
+          skipLocationChange: true,
+        })
+        .then((_) => this.location.replaceState(state.url));
+      return throwError(
+        new Error(`Parameter '${<%= classify(name) %>ResolveGuard.pathParam}' not found`)
+      );
+    }
+
+    const trigger$: Subject<unknown> =
+      route.data[<%= classify(name) %>ResolveGuard.dataTriggerField] || new Subject();
+    const data$: Observable<any> =
+      route.data[<%= classify(name) %>ResolveGuard.dataField] ||
+      this.fetchData$(route)<% if(polling) { %>.pipe(polling(5000, trigger$))<% } %>;
+
+    return data$.pipe(
+      first(),
+      catchError((error: HttpErrorResponse) => {
+        switch (error.status) {
+          case 404:
+            this.router
+              .navigateByUrl('/not-found', {
+                skipLocationChange: true,
+                state: {
+                  error,
+                },
+              })
+              .then((_) => this.location.replaceState(state.url));
+            break;
+          default:
+            this.router
+              .navigateByUrl('/error', {
+                skipLocationChange: true,
+                state: {
+                  error,
+                },
+              })
+              .then((_) => this.location.replaceState(state.url));
+        }
+        return throwError(error);
+      }),
+      map((value) => {
+        route.data = {
+          ...route.data,
+          [<%= classify(name) %>ResolveGuard.dataField]: data$,
+          [<%= classify(name) %>ResolveGuard.dataTriggerField]: trigger$,
+        };
+        return true;
+      })
+    );
+  }
+}
