@@ -6,6 +6,9 @@ import {
   OperatorFunction,
   pipe,
   range,
+  Subject,
+  Subscriber,
+  Subscription,
   throwError,
   timer,
   zip,
@@ -25,6 +28,76 @@ import {
 } from 'rxjs/operators';
 
 /**
+ * Rxjs pipe operator allowing performing right before observable subscription.
+ *
+ * @param action logic to perform
+ * @returns the RxJS `OperatorFunction`
+ */
+export function before<T>(action: () => void): OperatorFunction<T, T> {
+  return (source: Observable<T>) =>
+    new Observable<T>(
+      (subscriber: Subscriber<T>): Subscription => {
+        action();
+        // FIXME don't really understood why 😒
+        // tslint:disable-next-line: deprecation
+        return source.subscribe({
+          next: (v) => subscriber.next(v),
+          error: (e) => subscriber.error(e),
+          complete: () => subscriber.complete(),
+        });
+      }
+    );
+}
+
+/**
+ * Rxjs pipe operator tracking loading status on given Subject
+ *
+ * 1. before subscription perform a `loadingSubject.next(true)`
+ * 2. on *next* perform a `loadingSubject.next(false)`
+ * 3. on *error* perform a `loadingSubject.next(false)`
+ * 4. on *complete* perform a `loadingSubject.next(false)`
+ *
+ * @param loadingSubject the loading indicator subject
+ * @returns the RxJS `OperatorFunction`
+ */
+export function loading<T>(
+  loadingSubject: Subject<boolean>
+): OperatorFunction<T, T> {
+  return pipe(
+    before(() => loadingSubject.next(true)),
+    tap({
+      next: (_) => loadingSubject.next(false),
+      error: (_) => loadingSubject.next(false),
+      complete: () => loadingSubject.next(false),
+    })
+  );
+}
+
+/**
+ * Rxjs pipe operator tracking error status on given Subject
+ *
+ * 1. before subscription perform a `errorSubject.next(false)`
+ * 2. on *next* perform a `errorSubject.next(false)`
+ * 3. on *error* perform a `errorSubject.next(true)`
+ * 4. on *complete* perform a `errorSubject.next(false)`
+ *
+ * @param errorSubject the error indicator subject
+ * @returns the RxJS `OperatorFunction`
+ */
+export function error<T>(
+  errorSubject: Subject<boolean>
+): OperatorFunction<T, T> {
+  return pipe(
+    before(() => errorSubject.next(false)),
+    tap({
+      next: (_) => errorSubject.next(false),
+      error: (_) => errorSubject.next(true),
+      complete: () => errorSubject.next(false),
+    })
+  );
+}
+
+/**
  * Utility RxJS Operator for handling errors on given `Observable`.
  *
  * Operate on streams of any type `T`
@@ -37,19 +110,17 @@ import {
  * @returns the RxJS `OperatorFunction`
  */
 export function handleError<T, E>(
-  predicate: (err: E) => boolean | 'any',
+  predicate: ((err: E) => boolean) | 'any',
   fallbackValue: T
 ): OperatorFunction<T, T> {
-  return (source: Observable<T>) => {
-    return source.pipe(
-      catchError((err) => {
-        if (predicate(err)) {
-          return of(fallbackValue);
-        }
-        return throwError(err);
-      })
-    );
-  };
+  return pipe(
+    catchError((err) => {
+      if (predicate === 'any' || predicate(err)) {
+        return of(fallbackValue);
+      }
+      return throwError(err);
+    })
+  );
 }
 
 /**
