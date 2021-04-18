@@ -1,6 +1,7 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { loading } from 'src/utils/rxjs.utils';
 import { TaskApiService } from '../../api/task-api.service';
 import { TaskResolveGuard } from '../../guard/task-resolve.guard';
 import { TaskModel } from '../../models/task.model';
@@ -19,6 +20,10 @@ export class DetailPageComponent implements OnInit {
     TaskResolveGuard.dataField
   ];
 
+  readonly loading = {
+    edit$: new BehaviorSubject<boolean>(false),
+  };
+
   constructor(private api: TaskApiService, private route: ActivatedRoute) {}
 
   ngOnInit(): void {}
@@ -28,6 +33,7 @@ export class DetailPageComponent implements OnInit {
       .patchTask(task.id, {
         status: ['work', 'done', 'todo'][Math.floor(Math.random() * 3)],
       })
-      .subscribe((_) => this.fetchTrigger$.next());
+      .pipe(loading(this.loading.edit$))
+      .subscribe({ next: (t) => this.fetchTrigger$.next() });
   }
 }

@@ -1,4 +1,9 @@
 <ng-container *ngIf="task$ | async as task">
-  <a (click)="edit(task)">update</a>
+  <a
+    [class.disabled]="loading.edit$.value"
+    class="bg-white p-1 rounded cursor-pointer"
+    (click)="!loading.edit$.value && edit(task)"
+    >update</a
+  >
   <p>{{ task | json }}</p>
 </ng-container>
