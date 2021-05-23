@@ -1,0 +1,9 @@
+:host {
+  @apply block overflow-auto h-full;
+}
+virtual-scroller {
+  @apply h-full;
+  table {
+    @apply w-full;
+  }
+}
