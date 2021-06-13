@@ -35,18 +35,15 @@ import {
  */
 export function before<T>(action: () => void): OperatorFunction<T, T> {
   return (source: Observable<T>) =>
-    new Observable<T>(
-      (subscriber: Subscriber<T>): Subscription => {
-        action();
-        // FIXME don't really understood why 😒
-        // tslint:disable-next-line: deprecation
-        return source.subscribe({
-          next: (v) => subscriber.next(v),
-          error: (e) => subscriber.error(e),
-          complete: () => subscriber.complete(),
-        });
-      }
-    );
+    new Observable<T>((subscriber: Subscriber<T>): Subscription => {
+      action();
+      // FIXME don't really understood why 😒
+      return source.subscribe({
+        next: (v) => subscriber.next(v),
+        error: (e) => subscriber.error(e),
+        complete: () => subscriber.complete(),
+      });
+    });
 }
 
 /**
@@ -66,8 +63,8 @@ export function loading<T>(
   return pipe(
     before(() => loadingSubject.next(true)),
     tap({
-      next: (_) => loadingSubject.next(false),
-      error: (_) => loadingSubject.next(false),
+      next: () => loadingSubject.next(false),
+      error: () => loadingSubject.next(false),
       complete: () => loadingSubject.next(false),
     })
   );
@@ -90,8 +87,8 @@ export function error<T>(
   return pipe(
     before(() => errorSubject.next(false)),
     tap({
-      next: (_) => errorSubject.next(false),
-      error: (_) => errorSubject.next(true),
+      next: () => errorSubject.next(false),
+      error: () => errorSubject.next(true),
       complete: () => errorSubject.next(false),
     })
   );

@@ -5,7 +5,6 @@ import { environment } from '@env/environment';
  * Credits to https://medium.com/better-programming/decouple-tests-with-data-attributes-c920606c5f27
  */
 @Directive({
-  // tslint:disable-next-line:directive-selector
   selector: `[data-test]`,
 })
 export class DataTestDirective {

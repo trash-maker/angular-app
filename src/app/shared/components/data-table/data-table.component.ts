@@ -8,8 +8,7 @@ import {
   TemplateRef,
 } from '@angular/core';
 
-// tslint:disable-next-line: no-any
-type Template = TemplateRef<any>;
+type Template = TemplateRef<never>;
 
 export interface ColumnConfig<T> {
   field: keyof T | string;
@@ -52,8 +51,10 @@ export class DataTableComponent<T> implements OnInit, OnChanges {
   innerColumns: InnerColumnConfig<T>[] = [];
   viewPortItems: T[] = [];
 
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   constructor() {}
 
+  // eslint-disable-next-line @typescript-eslint/no-empty-function, @angular-eslint/no-empty-lifecycle-method
   ngOnInit(): void {}
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -80,6 +81,7 @@ export class DataTableComponent<T> implements OnInit, OnChanges {
     });
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   trackByFn(index: number, item: T): number {
     return index;
   }

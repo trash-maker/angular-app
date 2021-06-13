@@ -1,7 +1,6 @@
 import { FormGroup } from '@angular/forms';
 
-// tslint:disable-next-line: no-any
-type FormValue = any;
+type FormValue = never;
 
 /**
  * Gets only changed field values (dirty values) from given form
@@ -13,13 +12,13 @@ type FormValue = any;
  * @returns the dirty values
  */
 export function dirtyValues(form: FormGroup, deep = true): Partial<FormValue> {
-  const dirty: Partial<FormValue> = {};
+  const dirty: Partial<FormValue> = {} as never;
   for (const [key, control] of Object.entries(form.controls)) {
     if (control.dirty) {
       if (deep && control instanceof FormGroup && control.controls) {
         dirty[key] = dirtyValues(control);
       } else {
-        dirty[key] = control.value;
+        dirty[key] = control.value as never;
       }
     }
   }

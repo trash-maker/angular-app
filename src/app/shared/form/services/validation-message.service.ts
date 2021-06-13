@@ -13,6 +13,7 @@ export class ValidationMessageService {
       const fieldForm: AbstractControl = field.formControl;
       const messages: Observable<string>[] = [];
       for (const error in fieldForm.errors) {
+        // eslint-disable-next-line no-prototype-builtins
         if (fieldForm.errors.hasOwnProperty(error)) {
           let message = this.config.getValidatorMessage(error);
 

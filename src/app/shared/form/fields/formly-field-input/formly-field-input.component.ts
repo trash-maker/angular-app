@@ -3,8 +3,6 @@ import { FormControl } from '@angular/forms';
 import { FieldType } from '@ngx-formly/core';
 import { ValidationMessageService } from '../../services/validation-message.service';
 
-// tslint:disable: component-selector
-
 @Component({
   selector: 'formly-field-input',
   template: `

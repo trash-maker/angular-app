@@ -27,5 +27,6 @@ export class MessagePageComponent implements OnInit {
     );
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-empty-function, @angular-eslint/no-empty-lifecycle-method
   ngOnInit(): void {}
 }

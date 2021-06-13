@@ -4,7 +4,7 @@ export class Functions {
   public static readonly instance = new Functions();
 
   debug<T>(value: T): void {
-    // tslint:disable-next-line: no-console
+    // eslint-disable-next-line no-restricted-syntax
     console.debug(value);
   }
 

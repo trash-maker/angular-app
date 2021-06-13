@@ -11,7 +11,9 @@ export class LandingPageComponent implements OnInit {
   title = 'app';
   version = environment.version;
 
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   constructor() {}
 
+  // eslint-disable-next-line @typescript-eslint/no-empty-function, @angular-eslint/no-empty-lifecycle-method
   ngOnInit(): void {}
 }
