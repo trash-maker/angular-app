@@ -1,72 +1,70 @@
 <!-- FIXME better find a custom scroll soluion for fix poor performances on fixed header -->
-<virtual-scroller #scroll [items]="data" [enableUnequalChildrenSizes]="true">
-  <table>
-    <thead #header>
-      <tr>
-        <ng-container *ngFor="let column of innerColumns">
-          <ng-container [ngSwitch]="true">
-            <ng-container *ngSwitchCase="column.headerTemplate != null">
-              <th>
-                <ng-container
-                  *ngTemplateOutlet="
-                    column.headerTemplate || null;
-                    context: { $implicit: column.field, column: column }
-                  "
-                >
-                </ng-container>
-              </th>
-            </ng-container>
-            <ng-container *ngSwitchCase="column.headerFunction != null">
-              <th
-                [innerHtml]="
-                  column.headerFunction &&
-                  column.headerFunction(column.field, column)
+<table>
+  <thead #header>
+    <tr>
+      <ng-container *ngFor="let column of innerColumns">
+        <ng-container [ngSwitch]="true">
+          <ng-container *ngSwitchCase="column.headerTemplate != null">
+            <th>
+              <ng-container
+                *ngTemplateOutlet="
+                  column.headerTemplate || null;
+                  context: { $implicit: column.field, column: column }
                 "
-              ></th>
-            </ng-container>
-            <ng-container *ngSwitchCase="column.headerString != null">
-              <th [innerHtml]="column.headerString"></th>
-            </ng-container>
-            <ng-container *ngSwitchDefault>
-              <th [innerHtml]="column.field"></th>
-            </ng-container>
+              >
+              </ng-container>
+            </th>
+          </ng-container>
+          <ng-container *ngSwitchCase="column.headerFunction != null">
+            <th
+              [innerHtml]="
+                column.headerFunction &&
+                column.headerFunction(column.field, column)
+              "
+            ></th>
+          </ng-container>
+          <ng-container *ngSwitchCase="column.headerString != null">
+            <th [innerHtml]="column.headerString"></th>
+          </ng-container>
+          <ng-container *ngSwitchDefault>
+            <th [innerHtml]="column.field"></th>
           </ng-container>
         </ng-container>
-      </tr>
-    </thead>
-    <tbody #container>
-      <tr *ngFor="let row of scroll.viewPortItems; trackBy: trackByFn">
-        <ng-container *ngFor="let column of innerColumns">
-          <ng-container [ngSwitch]="true">
-            <ng-container *ngSwitchCase="column.contentTemplate != null">
-              <td>
-                <ng-container
-                  *ngTemplateOutlet="
-                    column.contentTemplate || null;
-                    context: {
-                      $implicit: row[column.field],
-                      row: row,
-                      column: column
-                    }
-                  "
-                >
-                </ng-container>
-              </td>
-            </ng-container>
-            <ng-container *ngSwitchCase="column.contentFunction != null">
-              <td
-                [innerHtml]="
-                  column.contentFunction &&
-                  column.contentFunction(row[column.field], row, column)
+      </ng-container>
+    </tr>
+  </thead>
+  <tbody #container>
+    <tr *ngFor="let row of data; trackBy: trackByFn">
+      <ng-container *ngFor="let column of innerColumns">
+        <ng-container [ngSwitch]="true">
+          <ng-container *ngSwitchCase="column.contentTemplate != null">
+            <td>
+              <ng-container
+                *ngTemplateOutlet="
+                  column.contentTemplate || null;
+                  context: {
+                    $implicit: $any(row)[column.field],
+                    row: row,
+                    column: column
+                  }
                 "
-              ></td>
-            </ng-container>
-            <ng-container *ngSwitchDefault>
-              <td [innerHtml]="row[column.field]"></td>
-            </ng-container>
+              >
+              </ng-container>
+            </td>
+          </ng-container>
+          <ng-container *ngSwitchCase="column.contentFunction != null">
+            <td
+              [innerHtml]="
+                column.contentFunction &&
+                column.contentFunction($any(row)[column.field], row, column)
+              "
+            ></td>
+          </ng-container>
+          <ng-container *ngSwitchDefault>
+            <td [innerHtml]="$any(row)[column.field]"></td>
           </ng-container>
         </ng-container>
-      </tr>
-    </tbody>
-  </table>
-</virtual-scroller>
+      </ng-container>
+    </tr>
+  </tbody>
+</table>

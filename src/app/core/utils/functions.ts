@@ -1,4 +1,3 @@
-import * as rfdc from 'rfdc';
 import { clone } from 'src/utils/model.utils';
 
 export class Functions {

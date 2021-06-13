@@ -1,40 +1,40 @@
 import {
-  Component,
-  OnInit,
   ChangeDetectionStrategy,
-  TemplateRef,
+  Component,
   Input,
   OnChanges,
+  OnInit,
   SimpleChanges,
-  ContentChildren,
+  TemplateRef,
 } from '@angular/core';
 
-export interface ColumnConfig {
-  field: string;
+// tslint:disable-next-line: no-any
+type Template = TemplateRef<any>;
+
+export interface ColumnConfig<T> {
+  field: keyof T | string;
   header?:
     | string
-    | TemplateRef<any>
-    | ((field: string, col?: ColumnConfig) => string);
+    | Template
+    | ((field: keyof T | string, col?: ColumnConfig<T>) => string);
   content?:
-    | TemplateRef<any>
-    | ((value: any, row?: any, col?: ColumnConfig) => string | number);
+    | Template
+    | ((value: T[keyof T], row?: T, col?: ColumnConfig<T>) => string | number);
 }
 
-interface InnerColumnConfig {
+interface InnerColumnConfig<T> {
   id: string;
-  field: string;
+  field: string; // keyof T | string;
   headerString?: string;
-  headerFunction?: (field: string, col?: ColumnConfig) => string;
-  headerTemplate?: TemplateRef<any>;
+  headerFunction?: (field: keyof T | string, col?: ColumnConfig<T>) => string;
+  headerTemplate?: Template;
   contentFunction?: (
-    value: any,
-    row?: any,
-    col?: ColumnConfig
+    value: T[keyof T],
+    row?: T,
+    col?: ColumnConfig<T>
   ) => string | number;
-  contentTemplate?: TemplateRef<any>;
+  contentTemplate?: Template;
 }
-
-type T = any;
 
 @Component({
   selector: 'app-data-table',
@@ -42,14 +42,14 @@ type T = any;
   styleUrls: ['./data-table.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DataTableComponent implements OnInit, OnChanges {
+export class DataTableComponent<T> implements OnInit, OnChanges {
   @Input()
-  columns: ColumnConfig[] = [];
+  columns: ColumnConfig<T>[] = [];
 
   @Input()
   data: T[] = [];
 
-  innerColumns: InnerColumnConfig[] = [];
+  innerColumns: InnerColumnConfig<T>[] = [];
   viewPortItems: T[] = [];
 
   constructor() {}
@@ -66,7 +66,7 @@ export class DataTableComponent implements OnInit, OnChanges {
     this.innerColumns = this.columns.map((col) => {
       return {
         id: btoa(`${col.field}`),
-        field: col.field,
+        field: col.field as string,
         headerString: typeof col.header === 'string' ? col.header : undefined,
         headerFunction:
           typeof col.header === 'function' ? col.header : undefined,

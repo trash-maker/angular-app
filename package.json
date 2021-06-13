@@ -38,7 +38,6 @@
     "classlist.js": "^1.1.20150312",
     "core-js": "^3.8.3",
     "date-fns": "^2.16.1",
-    "ngx-virtual-scroller": "^4.0.3",
     "rfdc": "^1.2.0",
     "rxjs": "~6.6.0",
     "ts-cacheable": "^1.0.3",
